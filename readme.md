@@ -42,7 +42,7 @@ Production Environment : <code>https://point.myvalue.com/</code>
 
 #### Content-Type and Accept Header
 
-In Membership API, the input and output parameters of the methods will be in JSON format. To accept JSON input and output parameters, you need to add the following HTTP(S) header:
+In Point API, the input and output parameters of the methods will be in JSON format. To accept JSON input and output parameters, you need to add the following HTTP(S) header:
 
   <ul>
     <li><code>Content-Type : application/json</code></li>
@@ -71,46 +71,46 @@ Then for Authorization Header, you can fill the value with:<br/><code>Bearer jfa
   </thead>
   <tbody>
     <tr>
-      <td>/members</td>
+      <td>/point</td>
       <td>GET</td>
-      <td>Get members data</td>
+      <td>Get member total point</td>
     </tr>
     <tr>
-      <td>/members/search-point</td>
+      <td>/point/transaction</td>
+      <td>POST</td>
+      <td>Point transaction (Earning/Redeem)</td>
+    </tr>
+    <tr>
+      <td>/point/history</td>
       <td>GET</td>
-      <td>Get members data with total point</td>
+      <td>Get member history point</td>
     </tr>
     <tr>
-      <td>/members</td>
-      <td>POST</td>
-      <td>Store member data</td>
-    </tr>
-    <tr>
-      <td>/members</td>
-      <td>PUT</td>
-      <td>Update member data</td>
-    </tr>
-    <tr>
-      <td>/members/mapping</td>
-      <td>POST</td>
-      <td>Mapping members data</td>
-    </tr>
-    <tr>
-      <td>/members/mappingapproval</td>
-      <td>POST</td>
-      <td>Mapping members data with token</td>
-    </tr>
-    <tr>
-      <td>/outlets</td>
+      <td>/point/expired</td>
       <td>GET</td>
-      <td>Get outlet data</td>
+      <td>Get member expired point</td>
+    </tr>
+    <tr>
+      <td>/point/recap</td>
+      <td>GET</td>
+      <td>Get point recap per Brand or Merchant</td>
+    </tr>
+    <tr>
+      <td>/point/estimate</td>
+      <td>POST</td>
+      <td>Calculate estimate earn/redeem point</td>
+    </tr>
+    <tr>
+      <td>/point/revision</td>
+      <td>POST</td>
+      <td>Transaction point revision</td>
     </tr>
   </tbody>
 </table>
 
-### Get Members
+### Get Point
 
-Membership API serve end point API to get data members using <code>valueid</code>, <code>memberno</code>, <code>email</code>, and <code>mobilephone</code>.
+Point API serve end point API to get data total point using <code>valueid</code>, <code>memberno</code>, <code>email</code>, and <code>cardnumber</code>.
 
 <table class="table" width="100%">
   <thead>
@@ -122,9 +122,9 @@ Membership API serve end point API to get data members using <code>valueid</code
   </thead>
   <tbody>
     <tr>
-      <td>/members? <code>valueid</code>=&<code>memberno</code>=&<code>email</code>=&<code>mobilephone</code>=</td>
+      <td>/point? <code>valueid</code>=&<code>memberno</code>=&<code>email</code>=&<code>cardnumber</code>=</td>
       <td>GET</td>
-      <td>Get members data</td>
+      <td>Get member total point</td>
     </tr>
   </tbody>
 </table>
@@ -150,7 +150,7 @@ You don't have to fill out all of these parameters.
   <tr>
     <td><code>memberno</code></td>
     <td>String</td>
-    <td>The MemberNo or CardNumber of members</td>
+    <td>The MemberNo of members</td>
   </tr>
   <tr>
     <td><code>email</code></td>
@@ -158,9 +158,9 @@ You don't have to fill out all of these parameters.
     <td>The Email of members</td>
   </tr>
   <tr>
-    <td><code>mobilephone</code></td>
+    <td><code>cardnumber</code></td>
     <td>String</td>
-    <td>The Mobile Phone of members</td>
+    <td>The Card Number of members</td>
   </tr>
 </tbody>
 </table>
@@ -168,72 +168,25 @@ You don't have to fill out all of these parameters.
 #### Response
 
 This is the response from API:
-<br/><strong>PersonSNO</strong> <code>numeric</code> : Unique ID for a member
-<br/><strong>ValueID</strong> <code>string</code> : ValueID of member, it will fill with "" (empty string) if a member have not mapped with his ValueID
-<br/><strong>TypeName</strong> <code>string</code> : It will fill by "Membership" (you could ignore this value)
-<br/><strong>MemberNo</strong> <code>string</code> : Unique ID for member at their memberships
-<br/><strong>Email</strong> <code>string</code> : Member's email (all notifications for member will be send to this email address)
-<br/><strong>MobilePhone</strong> <code>string</code> : Member's mobile phone (all notifications for member will be send to this mobile phone)
-<br/><strong>FirstName</strong> <code>string</code> : Member first name
-<br/><strong>LastName</strong> <code>string</code> : Member last name
-<br/><strong>FullName</strong> <code>string</code> : Member full name
-<br/><strong>BirthDate</strong> <code>date</code> : Member birth date, format <code>yyyy-mm-dd</code>
-<br/><strong>CityName</strong> <code>string</code> : City where member came from
-<br/><strong>MaritalStatusName</strong> <code>string</code> : Marital status of member
-<br/><strong>CardNumber</strong> <code>string</code> : 16 digit card number and not all members have it
-<br/><strong>NameOnCard</strong> <code>string</code> : The name written in the card (for member that hold a card)
-<br/><strong>ValidDate</strong> <code>date</code> : The date where member has been registered, format <code>yyyy-mm-dd</code>
-<br/><strong>ExpiredDate</strong> <code>date</code> : The date where member will be blocked by system, format <code>yyyy-mm-dd</code>
-<br/><strong>MembershipSNO</strong> <code>numeric</code> : Membership unique ID
-<br/><strong>MembershipName</strong> <code>string</code> : Membership Name
-<br/><strong>HomeAddress</strong> <code>string</code> : Member home address
-<br/><strong>HomeAddressCity</strong> <code>string</code> : City of member home address
-<br/><strong>HomeAddressPostalCode</strong> <code>string</code> : Postal code of member home address
-<br/><strong>Active</strong> <code>boolean</code> : "Active" means that member has been mapped their membership with ValueID
-<br/><strong>CreatedAt</strong> <code>datetime</code> : The date where member has been registered, format <code>yyyy-mm-ddThh:ii:ss</code>
-<br/><strong>TotalPoint</strong> <code>numeric</code> : It will always contain <code>null</code> value.
+<br/><strong>Message</strong> <code>string</code> : Message from end point
+<br/><strong>Data</strong> <code>object</code> : Object of data
+<br/><strong>TotalPoint</strong> <code>numeric</code> : Total point of member
+<br/><strong>Status</strong> <code>string</code> : Active/Nonactive member
 
 >Success(200)
 ``` javascript
 	{
-	    "Message": "Members Data Found",
-	    "Data": [
-	        {
-	            "PersonSNO": 1,
-	            "ValueID": "VX1111",
-	            "TypeName": "Membership",
-	            "MemberNo": "M0001000001",
-	            "Email": "john@doe.com",
-	            "MobilePhone": "0812345678",
-	            "FirstName": "John",
-	            "LastName": "Doe",
-	            "FullName": "John Doe",
-	            "BirthDate": "1990-08-02",
-	            "Gender": "M",
-	            "PersonalIdentityNo": "3266123727817898",
-	            "BirthPlace": "Bandung",
-	            "CityName": "Kota Bandung",
-	            "MaritalStatusName": "Single",
-	            "CardNumber": "0145000412341234",
-	            "NameOnCard": "John Doe",
-	            "ValidDate": "2018-01-19",
-	            "ExpiredDate": "2070-12-31",
-	            "MembershipSNO": 1,
-	            "MembershipName": "Santika Important Person",
-	            "HomeAddress": "N/A",
-	            "HomeAddressCity": "N/A",
-	            "HomeAddressPostalCode": "N/A",
-	            "Active": true,
-	            "CreatedAt": "2018-01-19T11:33:05+07:00",
-	            "TotalPoint": null
-	        }
-	    ]
-	}
+      "Message": "Success",
+      "Data": {
+          "TotalPoint": 1331738,
+          "Status": "Active"
+      }
+  }
 ```
 
-### Get Members with Point
+### Get Expired Point
 
-Membership API serve end point API to get data members using <code>cardnumber</code>, <code>memberno</code>, <code>email</code>, and <code>mobilephone</code> with total point.
+Point API serve end point API to get data expired point using <code>valueid</code>, <code>memberno</code>, <code>email</code>, and <code>cardnumber</code>.
 
 <table class="table" width="100%">
   <thead>
@@ -245,9 +198,9 @@ Membership API serve end point API to get data members using <code>cardnumber</c
   </thead>
   <tbody>
     <tr>
-      <td>/members? <code>cardnumber</code>=&<code>memberno</code>=&<code>email</code>=&<code>mobilephone</code>= &<code>showpoint</code>=1&<code>excludemembertype</code>=3</td>
+      <td>/point/expired? <code>valueid</code>=&<code>memberno</code>=&<code>email</code>=&<code>cardnumber</code>=</td>
       <td>GET</td>
-      <td>Get members data with point</td>
+      <td>Get member expired point</td>
     </tr>
   </tbody>
 </table>
@@ -266,9 +219,9 @@ You don't have to fill out all of these parameters.
 </thead>
 <tbody>
   <tr>
-    <td><code>cardnumber</code></td>
+    <td><code>valueid</code></td>
     <td>String</td>
-    <td>The Card Number of members</td>
+    <td>The ValueID of members</td>
   </tr>
   <tr>
     <td><code>memberno</code></td>
@@ -281,19 +234,9 @@ You don't have to fill out all of these parameters.
     <td>The Email of members</td>
   </tr>
   <tr>
-    <td><code>mobilephone</code></td>
+    <td><code>cardnumber</code></td>
     <td>String</td>
-    <td>The Mobile Phone of members</td>
-  </tr>
-  <tr>
-    <td><code>showpoint</code></td>
-    <td>integer</td>
-    <td>"1" to show point, "0" to don't show point, default "1"</td>
-  </tr>
-  <tr>
-    <td><code>excludemembertype</code></td>
-    <td>integer</td>
-    <td>System would not to find member on this membership. Fill with MembershipSNO</td>
+    <td>The Card Number of members</td>
   </tr>
 </tbody>
 </table>
@@ -301,447 +244,25 @@ You don't have to fill out all of these parameters.
 #### Response
 
 This is the response from API:
-<br/><strong>PersonSNO</strong> <code>numeric</code> : Unique ID for a member
-<br/><strong>ValueID</strong> <code>string</code> : ValueID of member, it will fill with "" (empty string) if a member have not mapped with his ValueID
-<br/><strong>TypeName</strong> <code>string</code> : It will fill by "Membership" (you could ignore this value)
-<br/><strong>MemberNo</strong> <code>string</code> : Unique ID for member at their memberships
-<br/><strong>Email</strong> <code>string</code> : Member's email (all notifications for member will be send to this email address)
-<br/><strong>MobilePhone</strong> <code>string</code> : Member's mobile phone (all notifications for member will be send to this mobile phone)
-<br/><strong>FirstName</strong> <code>string</code> : Member first name
-<br/><strong>LastName</strong> <code>string</code> : Member last name
-<br/><strong>FullName</strong> <code>string</code> : Member full name
-<br/><strong>BirthDate</strong> <code>date</code> : Member birth date, format <code>yyyy-mm-dd</code>
-<br/><strong>CityName</strong> <code>string</code> : City where member came from
-<br/><strong>MaritalStatusName</strong> <code>string</code> : Marital status of member
-<br/><strong>CardNumber</strong> <code>string</code> : 16 digit card number and not all members have it
-<br/><strong>NameOnCard</strong> <code>string</code> : The name written in the card (for member that hold a card)
-<br/><strong>ValidDate</strong> <code>date</code> : The date where member has been registered, format <code>yyyy-mm-dd</code>
-<br/><strong>ExpiredDate</strong> <code>date</code> : The date where member will be blocked by system, format <code>yyyy-mm-dd</code>
-<br/><strong>MembershipSNO</strong> <code>numeric</code> : Membership unique ID
-<br/><strong>MembershipName</strong> <code>string</code> : Membership Name
-<br/><strong>HomeAddress</strong> <code>string</code> : Member home address
-<br/><strong>HomeAddressCity</strong> <code>string</code> : City of member home address
-<br/><strong>HomeAddressPostalCode</strong> <code>string</code> : Postal code of member home address
-<br/><strong>Active</strong> <code>boolean</code> : "Active" means that member has been mapped their membership with ValueID
-<br/><strong>CreatedAt</strong> <code>datetime</code> : The date where member has been registered, format <code>yyyy-mm-ddThh:ii:ss</code>
-<br/><strong>TotalPoint</strong> <code>numeric</code> : Total point of members
-
->Success(200)
-``` javascript
-	{
-	    "Message": "Members Data Found",
-	    "Data": [
-	        {
-	            "PersonSNO": 1,
-	            "ValueID": "VX1111",
-	            "TypeName": "Membership",
-	            "MemberNo": "M0001000001",
-	            "Email": "john@doe.com",
-	            "MobilePhone": "0812345678",
-	            "FirstName": "John",
-	            "LastName": "Doe",
-	            "FullName": "John Doe",
-	            "BirthDate": "1990-08-02",
-	            "Gender": "M",
-	            "PersonalIdentityNo": "3266123727817898",
-	            "BirthPlace": "Bandung",
-	            "CityName": "Kota Bandung",
-	            "MaritalStatusName": "Single",
-	            "CardNumber": "0145000412341234",
-	            "NameOnCard": "John Doe",
-	            "ValidDate": "2018-01-19",
-	            "ExpiredDate": "2070-12-31",
-	            "MembershipSNO": 1,
-	            "MembershipName": "Santika Important Person",
-	            "HomeAddress": "N/A",
-	            "HomeAddressCity": "N/A",
-	            "HomeAddressPostalCode": "N/A",
-	            "Active": true,
-	            "CreatedAt": "2018-01-19T11:33:05+07:00",
-	            "TotalPoint": 150000000
-	        }
-	    ]
-	}
-```
-
-### Store Member
-
-Membership API serve end point API to store data member
-
-<table class="table" width="100%">
-  <thead>
-    <tr>
-      <th>End Point</th>
-      <th>HTTP Method</th>
-      <th>Definition</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>/members</td>
-      <td>POST</td>
-      <td>Store data member</td>
-    </tr>
-  </tbody>
-</table>
-
-#### Request Body
-
-<strong>Email</strong> <code>string(50)</code> : Required, Email's member
-<br/><strong>MobilePhone</strong> <code>string(15)</code> : Required, Mobile phone's member, begin with <code>62</code> or <code>0</code>
-<br/><strong>FirstName</strong> <code>string(50)</code> : Required, Member first name
-<br/><strong>LastName</strong> <code>string(50)</code> : Member last name
-<br/><strong>BirthDate</strong> <code>date</code> : Required, Member birth date, format <code>yyyy-mm-dd</code>
-<br/><strong>CitySNO</strong> <code>numeric</code> : Required, Member city
-<br/><strong>MembershipSNO</strong> <code>numeric</code> : Required, Membership unique id
-<br/><strong>CardNumber</strong> <code>string(20)</code> : Member card number, 16 digit
-<br/><strong>NameOnCard</strong> <code>string(20)</code> : Name on member card number
-<br/><strong>IDOutlet</strong> <code>string(10)</code> : Required, ID of outlet registered on MyValue
-<br/><strong>Gender</strong> <code>char(1)</code> : Required, "M" for male, "F" for female
-<br/><strong>PersonalIdentityNo</strong> <code>string(20)</code> : Personal identity no such as KTP/SIM/KITAS
-<br/><strong>BirthPlace</strong> <code>string(20)</code> : Member birth place
-<br/><strong>MemberNo</strong> <code>string(20)</code> : Fill with "" (empty string), unless you have your own memberno
-<br/><strong>Source</strong> <code>string(10)</code> : "ONLINE" will be generate ValueID automatically or "OFFLINE"
-
->Request body example:
-``` javascript
-	{
-		"Email":"john@indonesia.com",
-		"MobilePhone": "081212341234",
-		"FirstName": "John",
-		"LastName": "Indonesia",
-		"BirthDate": "1990-01-01",
-		"CitySNO": 1,
-		"MembershipSNO": 1,
-		"CardNumber": "",
-		"NameOnCard": "",
-		"IDOutlet":"0101001001",
-		"Gender": "M",
-		"PersonalIdentityNo": "",
-		"BirthPlace": "",
-		"MemberNo":"",
-		"Source":"OFFLINE"
-	}
-```
-
-#### Response
-
-This is the response from API:
-<br/><strong>PersonSNO</strong> <code>numeric</code> : Unique ID for a member
-<br/><strong>ValueID</strong> <code>string</code> : ValueID of member, it will fill with "" (empty string) if a member have not mapped with his ValueID
-<br/><strong>TypeName</strong> <code>string</code> : It will fill by "Membership" (you could ignore this value)
-<br/><strong>MemberNo</strong> <code>string</code> : Unique ID for member at their memberships
-<br/><strong>Email</strong> <code>string</code> : Member's email (all notifications for member will be send to this email address)
-<br/><strong>MobilePhone</strong> <code>string</code> : Member's mobile phone (all notifications for member will be send to this mobile phone)
-<br/><strong>FirstName</strong> <code>string</code> : Member first name
-<br/><strong>LastName</strong> <code>string</code> : Member last name
-<br/><strong>FullName</strong> <code>string</code> : Member full name
-<br/><strong>BirthDate</strong> <code>date</code> : Member birth date, format <code>yyyy-mm-dd</code>
-<br/><strong>CityName</strong> <code>string</code> : City where member came from
-<br/><strong>MaritalStatusName</strong> <code>string</code> : Marital status of member
-<br/><strong>CardNumber</strong> <code>string</code> : 16 digit card number and not all members have it
-<br/><strong>NameOnCard</strong> <code>string</code> : The name written in the card (for member that hold a card)
-<br/><strong>ValidDate</strong> <code>date</code> : The date where member has been registered, format <code>yyyy-mm-dd</code>
-<br/><strong>ExpiredDate</strong> <code>date</code> : The date where member will be blocked by system, format <code>yyyy-mm-dd</code>
-<br/><strong>MembershipSNO</strong> <code>numeric</code> : Membership unique ID
-<br/><strong>MembershipName</strong> <code>string</code> : Membership Name
-<br/><strong>HomeAddress</strong> <code>string</code> : Member home address
-<br/><strong>HomeAddressCity</strong> <code>string</code> : City of member home address
-<br/><strong>HomeAddressPostalCode</strong> <code>string</code> : Postal code of member home address
-<br/><strong>Active</strong> <code>boolean</code> : "Active" means that member has been mapped their membership with ValueID
-<br/><strong>CreatedAt</strong> <code>datetime</code> : The date where member has been registered, format <code>yyyy-mm-ddThh:ii:ss</code>
-<br/><strong>TotalPoint</strong> <code>numeric</code> : null
-
->Success(201)
-``` javascript
-	{
-	    "Message": "Saving data success. ",
-	    "Data": [
-	        {
-	            "PersonSNO": 1,
-	            "ValueID": "VX1111",
-	            "TypeName": "Membership",
-	            "MemberNo": "M0001000001",
-	            "Email": "john@doe.com",
-	            "MobilePhone": "0812345678",
-	            "FirstName": "John",
-	            "LastName": "Doe",
-	            "FullName": "John Doe",
-	            "BirthDate": "1990-08-02",
-	            "Gender": "M",
-	            "PersonalIdentityNo": "3266123727817898",
-	            "BirthPlace": "Bandung",
-	            "CityName": "Kota Bandung",
-	            "MaritalStatusName": "Single",
-	            "CardNumber": "0145000412341234",
-	            "NameOnCard": "John Doe",
-	            "ValidDate": "2018-01-19",
-	            "ExpiredDate": "2070-12-31",
-	            "MembershipSNO": 1,
-	            "MembershipName": "Santika Important Person",
-	            "HomeAddress": "N/A",
-	            "HomeAddressCity": "N/A",
-	            "HomeAddressPostalCode": "N/A",
-	            "Active": true,
-	            "CreatedAt": "2018-01-19T11:33:05+07:00",
-	            "TotalPoint": null
-	        }
-	    ]
-	}
-```
-
-Possibles status code:
-<br/><code>201</code> : Member created
-<br/><code>404</code> : Outlet not found/City not found/Outlet can't do acquisition
-<br/><code>409</code> : Member with email/memberno has been registered before/Creating member failed
-<br/><code>422</code> : Request body doesn't meet specification
-
-### Update Member
-
-Membership API serve end point API to update data member
-
-<table class="table" width="100%">
-  <thead>
-    <tr>
-      <th>End Point</th>
-      <th>HTTP Method</th>
-      <th>Definition</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>/members</td>
-      <td>PUT</td>
-      <td>Update data member</td>
-    </tr>
-  </tbody>
-</table>
-
-#### Request Body
-
-<strong>Email</strong> <code>string(50)</code> : Required, Email's member
-<br/><strong>MobilePhone</strong> <code>string(15)</code> : Required, Mobile phone's member, begin with <code>62</code> or <code>0</code>
-<br/><strong>FirstName</strong> <code>string(50)</code> : Required, Member first name
-<br/><strong>LastName</strong> <code>string(50)</code> : Member last name
-<br/><strong>BirthDate</strong> <code>date</code> : Required, Member birth date, format <code>yyyy-mm-dd</code>
-<br/><strong>CitySNO</strong> <code>numeric</code> : Required, Member city
-<br/><strong>MembershipSNO</strong> <code>numeric</code> : Required, Membership unique id
-<br/><strong>CardNumber</strong> <code>string(20)</code> : Member card number, 16 digit
-<br/><strong>NameOnCard</strong> <code>string(20)</code> : Name on member card number
-<br/><strong>IDOutlet</strong> <code>string(10)</code> : Required, ID of outlet registered on MyValue
-<br/><strong>Gender</strong> <code>char(1)</code> : Required, "M" for male, "F" for female
-<br/><strong>PersonalIdentityNo</strong> <code>string(20)</code> : Personal identity no such as KTP/SIM/KITAS
-<br/><strong>BirthPlace</strong> <code>string(20)</code> : Member birth place
-<br/><strong>MemberNo</strong> <code>string(20)</code> : Key for updating data
-
->Request body example:
-``` javascript
-	{
-		"Email":"john@indonesia.com",
-		"MobilePhone": "081212341234",
-		"FirstName": "John",
-		"LastName": "Doe",
-		"BirthDate": "1990-01-01",
-		"CitySNO": 1,
-		"MembershipSNO": 1,
-		"CardNumber": "",
-		"NameOnCard": "",
-		"IDOutlet":"0101001001",
-		"Gender": "M",
-		"PersonalIdentityNo": "",
-		"BirthPlace": "",
-		"MemberNo":"M0001000001"
-	}
-```
-
-#### Response
-
-This is the response from API:
-<br/><strong>PersonSNO</strong> <code>numeric</code> : Unique ID for a member
-<br/><strong>ValueID</strong> <code>string</code> : ValueID of member, it will fill with "" (empty string) if a member have not mapped with his ValueID
-<br/><strong>TypeName</strong> <code>string</code> : It will fill by "Membership" (you could ignore this value)
-<br/><strong>MemberNo</strong> <code>string</code> : Unique ID for member at their memberships
-<br/><strong>Email</strong> <code>string</code> : Member's email (all notifications for member will be send to this email address)
-<br/><strong>MobilePhone</strong> <code>string</code> : Member's mobile phone (all notifications for member will be send to this mobile phone)
-<br/><strong>FirstName</strong> <code>string</code> : Member first name
-<br/><strong>LastName</strong> <code>string</code> : Member last name
-<br/><strong>FullName</strong> <code>string</code> : Member full name
-<br/><strong>BirthDate</strong> <code>date</code> : Member birth date, format <code>yyyy-mm-dd</code>
-<br/><strong>CityName</strong> <code>string</code> : City where member came from
-<br/><strong>MaritalStatusName</strong> <code>string</code> : Marital status of member
-<br/><strong>CardNumber</strong> <code>string</code> : 16 digit card number and not all members have it
-<br/><strong>NameOnCard</strong> <code>string</code> : The name written in the card (for member that hold a card)
-<br/><strong>ValidDate</strong> <code>date</code> : The date where member has been registered, format <code>yyyy-mm-dd</code>
-<br/><strong>ExpiredDate</strong> <code>date</code> : The date where member will be blocked by system, format <code>yyyy-mm-dd</code>
-<br/><strong>MembershipSNO</strong> <code>numeric</code> : Membership unique ID
-<br/><strong>MembershipName</strong> <code>string</code> : Membership Name
-<br/><strong>HomeAddress</strong> <code>string</code> : Member home address
-<br/><strong>HomeAddressCity</strong> <code>string</code> : City of member home address
-<br/><strong>HomeAddressPostalCode</strong> <code>string</code> : Postal code of member home address
-<br/><strong>Active</strong> <code>boolean</code> : "Active" means that member has been mapped their membership with ValueID
-<br/><strong>CreatedAt</strong> <code>datetime</code> : The date where member has been registered, format <code>yyyy-mm-ddThh:ii:ss</code>
-<br/><strong>TotalPoint</strong> <code>numeric</code> : null
-
->Success(200)
-``` javascript
-	{
-	    "Message": "Updating data success. ",
-	    "Data": [
-	        {
-	            "PersonSNO": 1,
-	            "ValueID": "VX1111",
-	            "TypeName": "Membership",
-	            "MemberNo": "081212341234",
-	            "Email": "john@indonesia.com",
-	            "MobilePhone": "0812345678",
-	            "FirstName": "John",
-	            "LastName": "Doe",
-	            "FullName": "John Doe",
-	            "BirthDate": "1990-08-02",
-	            "Gender": "M",
-	            "PersonalIdentityNo": "",
-	            "BirthPlace": "",
-	            "CityName": "Kota Bandung",
-	            "MaritalStatusName": "Single",
-	            "CardNumber": "",
-	            "NameOnCard": "",
-	            "ValidDate": "2018-01-19",
-	            "ExpiredDate": "2070-12-31",
-	            "MembershipSNO": 1,
-	            "MembershipName": "Santika Important Person",
-	            "HomeAddress": "N/A",
-	            "HomeAddressCity": "N/A",
-	            "HomeAddressPostalCode": "N/A",
-	            "Active": true,
-	            "CreatedAt": "2018-01-19T11:33:05+07:00",
-	            "TotalPoint": null
-	        }
-	    ]
-	}
-```
-
-Possibles status code:
-<br/><code>200</code> : Update member success
-<br/><code>404</code> : Member not found/Outlet not found/City not found/Outlet can't do acquisition
-<br/><code>422</code> : Request body doesn't meet specification
-
-### Mapping Members
-
-Membership API serve end point API to mapping multiple data members with the same email, with MyValue membership.
-
-<table class="table" width="100%">
-  <thead>
-    <tr>
-      <th>End Point</th>
-      <th>HTTP Method</th>
-      <th>Definition</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>/members/mapping</td>
-      <td>POST</td>
-      <td>Mapping members data</td>
-    </tr>
-  </tbody>
-</table>
-
-#### Request Body
-
-<strong>ValueID</strong> <code>string(6)</code> : ValueID where member will be mapped to
-<br/><strong>members</strong> <code>array of string(20)</code> : List of all MemberNo/CardNumber will be mapped to ValueID
-
->Request body example:
-``` javascript
-{
-	"ValueID": "VX1111",
-	"members":[
-		"0145000412341234"
-		]
-}
-```
-
-#### Response
-
-This is the response from API:
-<br/><strong>Message</strong> <code>string</code> : Message from API response
+<br/><strong>Message</strong> <code>string</code> : Message from end point
 <br/><strong>Data</strong> <code>object</code> : Object of data
-<br/><strong>Code</strong> <code>numeric</code> : Status code of mapping result <code>99</code> for success mapping, <code>50</code> mapping failed and send token
-<br/><strong>KGCustId</strong> <code>string</code> : ValueID where member has been mapped to
-<br/><strong>persons</strong> <code>array of members</code> : List of members has been mapped with <strong>KGCustId</strong>
-<br/><strong>EmailSentToken</strong> <code>string</code> : Token mapping sent to this email address
-<br/><strong>MobilePhoneSentToken</strong> <code>string</code> : Token mapping sent to this mobile phone
-<br/><strong>MappingId</strong> <code>numeric</code> : Mapping unique id
-<br/><br/>Possibles status code:
-<br/><code>200</code> : Mapping member success
-<br/><code>404</code> : Member not found/ValueID not found
-<br/><code>409</code> : Send token to Email/Mobile Phone
-<br/><code>422</code> : Mapping failed
+<br/><strong>TotalPoint</strong> <code>numeric</code> : Total expired point of member
+<br/><strong>Status</strong> <code>string</code> : Active/Nonactive member
 
 >Success(200)
 ``` javascript
-{
-    "Message": "Mapping members success.",
-    "Data": {
-        "Code": 99,
-        "PersonMapped": {
-            "KGCustId": "VX1111",
-            "persons": [
-                {
-                    "PersonSNO": 1,
-		            "ValueID": "VX1111",
-		            "TypeName": "Membership",
-		            "MemberNo": "081212341234",
-		            "Email": "john@indonesia.com",
-		            "MobilePhone": "0812345678",
-		            "FirstName": "John",
-		            "LastName": "Doe",
-		            "FullName": "John Doe",
-		            "BirthDate": "1990-08-02",
-		            "Gender": "M",
-		            "PersonalIdentityNo": "",
-		            "BirthPlace": "",
-		            "CityName": "Kota Bandung",
-		            "MaritalStatusName": "Single",
-		            "CardNumber": "",
-		            "NameOnCard": "",
-		            "ValidDate": "2018-01-19",
-		            "ExpiredDate": "2070-12-31",
-		            "MembershipSNO": 1,
-		            "MembershipName": "Santika Important Person",
-		            "HomeAddress": "N/A",
-		            "HomeAddressCity": "N/A",
-		            "HomeAddressPostalCode": "N/A",
-		            "Active": true,
-		            "CreatedAt": "2018-01-19T11:33:05+07:00",
-		            "TotalPoint": null
-                }
-            ]
-        },
-        "EmailSentToken": null,
-        "MobilePhoneSentToken": null,
-        "MappingId": 200589
-    }
-}
+  {
+      "Message": "Success",
+      "Data": {
+          "TotalPoint": 50000,
+          "Status": "Active"
+      }
+  }
 ```
 
->Failed mapping (409)
-``` javascript
-{
-    "Message": "Mapping members failed. Mapping token has been sent to your email/mobile phone.",
-    "Data": {
-        "Code": 50,
-        "PersonMapped": null,
-        "EmailSentToken": "john@indonesia.com",
-        "MobilePhoneSentToken": "081212341234",
-        "MappingId": 200588
-    }
-}
-```
+### Transaction
 
-### Mapping Member with token
-
-Membership API serve end point API to mapping with token (if mapping member failed, it will send a token)
+Point API serve end point API to earn or redeem for members.
 
 <table class="table" width="100%">
   <thead>
@@ -753,47 +274,63 @@ Membership API serve end point API to mapping with token (if mapping member fail
   </thead>
   <tbody>
     <tr>
-      <td>/members/mappingapproval</td>
+      <td>/point/transaction</td>
       <td>POST</td>
-      <td>Mapping members data with token</td>
+      <td>Point transaction (Earning/Redeem)</td>
     </tr>
   </tbody>
 </table>
 
 #### Request Body
 
-<strong>ValueID</strong> <code>string(6)</code> : ValueID where member will be mapped to
-<br/><strong>MemberNo</strong> <code>string(20)</code> : MemberNo/CardNumber will be mapped to ValueID
-<br/><strong>Token</strong> <code>string(6)</code> : Token mapping sent to member's email/mobilephone
+<strong>MutasiTypeName</strong> <code>string(10)</code> : Required, "EARNING" or "REDEEM"
+<br/><strong>Searchby</strong> <code>string(15)</code> : Required, Paramater to search member would do transaction. The value are "KG_ID" for search using ValueID, "MEMBERNO" for search using MemberNo, "EMAIL" for search using Email, and "CARDNUMBER" for search using Cardnumber
+<br/><strong>Id</strong> <code>string(50)</code> : Required, the value to be searched
+<br/><strong>IdOutlet</strong> <code>string(10)</code> : Required, The ID of outlet where a member do transaction
+<br/><strong>ReferenceNo</strong> <code>string(30)</code> : Required and Unique, The reference no of member transaction
+<br/><strong>CreatedDate</strong> <code>datetime</code> : Required,The date and time of member transaction, format <code>yyyy-mm-dd hh:ii:ss</code>
+<br/><strong>Amount</strong> <code>numeric</code> : Required, Total amount of member transaction, if <code>J_Point</code> is "0", the point earned/redeem will be calculated using this <code>Amount</code>
+<br/><strong>J_Point</strong> <code>numeric</code> : Required, Total point earned/redeem will using this value if it's not filled by "0", the <code>Amount</code> parameter will be ignored
+<br/><strong>ExchangeRate</strong> <code>numeric</code> : Required, Exchange conversion for calculating point earn/redeem, if it's not filled by "0", the Exchange Rate from <code>IdOutlet</code> will be ignored
+<br/><strong>AmountPoint</strong> <code>numeric</code> : Required, Keep it filled by "0"
 
->Request body example:
+>Request body example
 ``` javascript
-{
-	"ValueID": "VX1111",
-	"MemberNo": "0145000412341234",
-	"Token": "123456"
-}
+  {
+    "MutasiTypeName" : "EARNING",
+    "Searchby" : "KG_ID", 
+    "Id" : "VX1112",
+    "IdOutlet" : "MVAPP00001",
+    "ReferenceNo" : "12000001818271", 
+    "CreatedDate" : "2018-11-11 09:30:00",
+    "Amount" : 120000,
+    "J_Point" :0,
+    "ExchangeRate" : 0,
+    "AmountPoint" : 0
+  }
 ```
 
 #### Response
 
 This is the response from API:
-<br/><strong>Message</strong> <code>string</code> : Message from API response
-<br/><br/>Possibles status code:
-<br/><code>200</code> : Mapping member success
-<br/><code>404</code> : Member not found/ValueID not found/Data mapping not found
-<br/><code>422</code> : Wrong token/Token expired
+<br/><strong>Message</strong> <code>string</code> : Message from end point
+<br/><strong>Data</strong> <code>object</code> : Object of data
+<br/>Possible status code:
+<br/><code>200</code> : Transaction success
+<br/><code>400</code> : Request body doesn't meet specification
+<br/><code>422</code> : Transaction failed
 
->Success (200)
+>Success(200)
 ``` javascript
-{
-	"Message" : "Mapping member success"
-}
+  {
+      "Message": "Earning Transaction Success",
+      "Data": null
+  }
 ```
 
-### Get Outlet
+### History Transaction
 
-Membership API serve end point API to get data outlet using <code>idoutlet</code>
+Point API serve end point API to get history transaction
 
 <table class="table" width="100%">
   <thead>
@@ -805,14 +342,16 @@ Membership API serve end point API to get data outlet using <code>idoutlet</code
   </thead>
   <tbody>
     <tr>
-      <td>/outlets?<code>idoutlet</code>=</td>
+      <td>/point/expired? <code>valueid</code>=&<code>memberno</code>=&<code>email</code>=&<code>cardnumber</code>=</td>
       <td>GET</td>
-      <td>Get outlet data</td>
+      <td>Get member history transaction</td>
     </tr>
   </tbody>
 </table>
 
 #### Request Parameters
+
+You don't have to fill out all of these parameters.
 
 <table class="table">
 <thead>
@@ -824,9 +363,34 @@ Membership API serve end point API to get data outlet using <code>idoutlet</code
 </thead>
 <tbody>
   <tr>
-    <td><code>idoutlet</code></td>
+    <td><code>valueid</code></td>
     <td>String</td>
-    <td>ID Outlet registered in MyValue</td>
+    <td>The ValueID of members</td>
+  </tr>
+  <tr>
+    <td><code>memberno</code></td>
+    <td>String</td>
+    <td>The MemberNo of members</td>
+  </tr>
+  <tr>
+    <td><code>email</code></td>
+    <td>String</td>
+    <td>The Email of members</td>
+  </tr>
+  <tr>
+    <td><code>cardnumber</code></td>
+    <td>String</td>
+    <td>The Card Number of members</td>
+  </tr>
+  <tr>
+    <td><code>limit</code></td>
+    <td>String</td>
+    <td>Limit of transaction showed per request, default is "10"</td>
+  </tr>
+  <tr>
+    <td><code>page</code></td>
+    <td>String</td>
+    <td>Sequence of history transaction page, start from "0", default is "0"</td>
   </tr>
 </tbody>
 </table>
@@ -834,42 +398,337 @@ Membership API serve end point API to get data outlet using <code>idoutlet</code
 #### Response
 
 This is the response from API:
-<br/><strong>IDOutlet</strong> <code>string</code> : ID Outlet
-<br/><strong>MerchantName</strong> <code>string</code> : Merchant Name of Outlet
-<br/><strong>OutletName</strong> <code>string</code> : Outlet name
-<br/><strong>Address</strong> <code>string</code> : Outlet address
-<br/><strong>Telephone</strong> <code>string</code> : Outlet phone
-<br/><strong>IsAcquisition</strong> <code>boolean</code> : Status outlet can do acquisition
-<br/><strong>IsEarning</strong> <code>boolean</code> : Status outlet can do earning
-<br/><strong>IsRedeem</strong> <code>boolean</code> : Status outlet can do redeem
+<br/><strong>Message</strong> <code>string</code> : Message from end point
+<br/><strong>Data</strong> <code>object</code> : List of transaction history
+<br/><strong>PointMutationSNO</strong> <code>numeric</code> : Unique ID of transaction
+<br/><strong>CreatedDate</strong> <code>datetime</code> : Transaction date
+<br/><strong>OutletName</strong> <code>string</code> : Outlet where the transaction made
+<br/><strong>MutationTypeName</strong> <code>string</code> : Type of transaction, "EARNING" or "REDEEM"
+<br/><strong>ReferenceNo</strong> <code>string</code> : The reference no of transaction
+<br/><strong>Point</strong> <code>numeric</code> : Total point earned/redeemed
+<br/><strong>MemberNo</strong> <code>string</code> : The member unique id
+<br/><strong>MemberName</strong> <code>string</code> : The member name
+<br/><strong>ValueID</strong> <code>string</code> : The ValueID of member
+<br/><strong>Status</strong> <code>string</code> : It will contain null, just ignored
 
->Success (200)
+>Success(201)
 ``` javascript
-{
-    "Message": "Data Outlet Found",
+  {
+      "Message": "Success",
+      "Data": [
+          {
+              "PointMutationSNO": 935052,
+              "CreatedDate": "2018-09-13T17:45:29.96",
+              "OutletName": "MyValue Apps - MyValue Apps",
+              "MutationTypeName": "REDEEM",
+              "ReferenceNo": "MYV-VCH-1536835529",
+              "Point": 1,
+              "MemberNo": "M0001000002",
+              "MemberName": "TAN SOEN HUI",
+              "ValueID": "VX1111",
+              "Status": null
+          },
+          {
+              "PointMutationSNO": 935044,
+              "CreatedDate": "2018-09-13T16:10:03.033",
+              "OutletName": "MyValue Apps - MyValue Apps",
+              "MutationTypeName": "EARNING",
+              "ReferenceNo": "MYV-VCH-1536829803",
+              "Point": 1,
+              "MemberNo": "M0001000002",
+              "MemberName": "TAN SOEN HUI",
+              "ValueID": "VX1111",
+              "Status": null
+          }
+      ]
+  }
+```
+
+### Recap Transaction
+
+Point API serve end point API to get recap of transactions
+
+<table class="table" width="100%">
+  <thead>
+    <tr>
+      <th>End Point</th>
+      <th>HTTP Method</th>
+      <th>Definition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>/point/recap? <code>param</code>=&<code>value</code>=&<code>startdate</code>=&<code>enddate</code>= &<code>limit</code>=10&<code>page</code>=0</td>
+      <td>GET</td>
+      <td>Get merchant recap point transaction</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Request Parameters
+
+You don't have to fill out all of these parameters.
+
+<table class="table">
+<thead>
+  <tr>
+    <th>Parameter</th>
+    <th>Type</th>
+    <th>Definition</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><code>param</code></td>
+    <td>String</td>
+    <td>The parameter of recap, "BRAND" or "MERCHANT"</td>
+  </tr>
+  <tr>
+    <td><code>value</code></td>
+    <td>String</td>
+    <td>Value of paramaters to be search</td>
+  </tr>
+  <tr>
+    <td><code>startdate</code></td>
+    <td>date</td>
+    <td>Format yyyy-mm-dd</td>
+  </tr>
+  <tr>
+    <td><code>enddate</code></td>
+    <td>date</td>
+    <td>Format yyyy-mm-dd</td>
+  </tr>
+  <tr>
+    <td><code>limit</code></td>
+    <td>String</td>
+    <td>Limit of transaction showed per request, default is "10"</td>
+  </tr>
+  <tr>
+    <td><code>page</code></td>
+    <td>String</td>
+    <td>Sequence of transaction page, start from "0", default is "0"</td>
+  </tr>
+</tbody>
+</table>
+
+#### Response
+
+This is the response from API:
+<br/><strong>Message</strong> <code>string</code> : Message from end point
+<br/><strong>Data</strong> <code>object</code> : List of transaction history
+<br/><strong>PointMutationSNO</strong> <code>numeric</code> : Unique ID of transaction
+<br/><strong>CreatedDate</strong> <code>datetime</code> : Transaction date
+<br/><strong>OutletName</strong> <code>string</code> : Outlet where the transaction made
+<br/><strong>MutationTypeName</strong> <code>string</code> : Type of transaction, "EARNING" or "REDEEM"
+<br/><strong>ReferenceNo</strong> <code>string</code> : The reference no of transaction
+<br/><strong>Point</strong> <code>numeric</code> : Total point earned/redeemed
+<br/><strong>MemberNo</strong> <code>string</code> : The member unique id
+<br/><strong>MemberName</strong> <code>string</code> : The member name
+<br/><strong>ValueID</strong> <code>string</code> : The ValueID of member
+<br/><strong>Status</strong> <code>string</code> : It will contain null, just ignored
+
+>Success(201)
+``` javascript
+  {
+      "Message": "Success",
+      "Data": [
+          {
+              "PointMutationSNO": 940516,
+              "CreatedDate": "2018-10-05T00:00:00",
+              "OutletName": "HOTEL ROOM - Hotel Santika Bandung",
+              "MutationTypeName": "EARNING",
+              "ReferenceNo": "999  /11023",
+              "Point": 36364,
+              "MemberNo": "M0001000083",
+              "MemberName": "Skali ",
+              "ValueID": "VSMMYR",
+              "Status": null
+          },
+          {
+              "PointMutationSNO": 935368,
+              "CreatedDate": "2018-10-02T00:00:00",
+              "OutletName": "HOTEL ROOM - Hotel Santika Bandung",
+              "MutationTypeName": "EARNING",
+              "ReferenceNo": "999  /11020",
+              "Point": 26446,
+              "MemberNo": "M0001000050",
+              "MemberName": "Sony Shahril Sandi",
+              "ValueID": "VX1112",
+              "Status": null
+          }
+      ]
+  }
+```
+
+### Estimate Transaction
+
+Point API serve end point API to earn or redeem for members.
+
+<table class="table" width="100%">
+  <thead>
+    <tr>
+      <th>End Point</th>
+      <th>HTTP Method</th>
+      <th>Definition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>/point/estimate</td>
+      <td>POST</td>
+      <td>Estimate how much will be earned/redeemed</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Request Body
+
+<strong>MutasiTypeName</strong> <code>string(10)</code> : Required, "EARNING" or "REDEEM"
+<br/><strong>Searchby</strong> <code>string(15)</code> : Required, Paramater to search member would do transaction. The value are "KG_ID" for search using ValueID, "MEMBERNO" for search using MemberNo, "EMAIL" for search using Email, and "CARDNUMBER" for search using Cardnumber
+<br/><strong>Id</strong> <code>string(50)</code> : Required, the value to be searched
+<br/><strong>IdOutlet</strong> <code>string(10)</code> : Required, The ID of outlet where a member do transaction
+<br/><strong>ReferenceNo</strong> <code>string(30)</code> : Required and Unique, The reference no of member transaction
+<br/><strong>CreatedDate</strong> <code>datetime</code> : Required,The date and time of member transaction, format <code>yyyy-mm-dd hh:ii:ss</code>
+<br/><strong>Amount</strong> <code>numeric</code> : Required, Total amount of member transaction, if <code>J_Point</code> is "0", the point earned/redeem will be calculated using this <code>Amount</code>
+<br/><strong>J_Point</strong> <code>numeric</code> : Required, Total point earned/redeem will using this value if it's not filled by "0", the <code>Amount</code> parameter will be ignored
+<br/><strong>ExchangeRate</strong> <code>numeric</code> : Required, Exchange conversion for calculating point earn/redeem, if it's not filled by "0", the Exchange Rate from <code>IdOutlet</code> will be ignored
+<br/><strong>AmountPoint</strong> <code>numeric</code> : Required, Keep it filled by "0"
+
+>Request body example
+``` javascript
+  {
+    "MutasiTypeName" : "EARNING",
+    "Searchby" : "KG_ID", 
+    "Id" : "VX1112",
+    "IdOutlet" : "MVAPP00001",
+    "ReferenceNo" : "12000001818271", 
+    "CreatedDate" : "2018-11-11 09:30:00",
+    "Amount" : 120000,
+    "J_Point" :0,
+    "ExchangeRate" : 0,
+    "AmountPoint" : 0
+  }
+```
+
+#### Response
+
+This is the response from API:
+<br/><strong>Message</strong> <code>string</code> : Message from end point
+<br/><strong>Data</strong> <code>object</code> : Object of data
+<br/><strong>MutationType</strong> <code>string</code> : "EARNING" or "REDEEM"
+<br/><strong>TotalPointEstimated</strong> <code>numeric</code> : The total point estimated after transaction
+<br/><strong>PointEstimated</strong> <code>numeric</code> : The result of calculated point estimated
+<br/><strong>MemberNo</strong> <code>string</code> : The unique id of member
+<br/><strong>MemberName</strong> <code>string</code> : The name of member
+<br/><strong>ValueID</strong> <code>string</code> : The ValueID of member
+<br/><strong>OutletName</strong> <code>string</code> : The Outlet where the transaction made
+<br/><strong>ExchangeRate</strong> <code>numeric</code> : The Exchange Rate used to calculated point
+<br/>Possible status code:
+<br/><code>200</code> : Estimating success
+<br/><code>400</code> : Request body doesn't meet specification
+<br/><code>422</code> : Estimating failed
+
+>Success(200)
+``` javascript
+  {
+    "Message": "Estimating success",
     "Data": {
-        "IDOutlet": "0101001001",
-        "MerchantName": "Hotel Santika Bandung",
-        "OutletName": "HOTEL ROOM",
-        "Address": "HOTEL ROOM",
-        "Telephone": "0229000000",
-        "IsAcquisition": true,
-        "IsEarning": true,
-        "IsRedeem": true
+        "MutationType": "EARNING",
+        "TotalPointEstimated": 1341338,
+        "PointEstimated": 4800,
+        "TotalTransaction": 120000,
+        "MemberNo": "M0001000050",
+        "MemberName": "Sony Shahril Sandi",
+        "ValueID": "VX1112",
+        "OutletName": "MyValue Apps - MyValue Apps",
+        "ExchangeRate": 10000,
+        "Message": "Estimating success",
+        "StatusCode": 1
     }
 }
 ```
 
+### Earning Revision
+
+Point API serve end point API to revise calculated earn point with new calculate point. The API will search ReferenceNo in inputed outlet.
+
+<table class="table" width="100%">
+  <thead>
+    <tr>
+      <th>End Point</th>
+      <th>HTTP Method</th>
+      <th>Definition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>/point/revision</td>
+      <td>POST</td>
+      <td>Earn point revision</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Request Body
+
+<strong>MutasiTypeName</strong> <code>string(10)</code> : Required, "EARNING" or "REDEEM"
+<br/><strong>Searchby</strong> <code>string(15)</code> : Required, Paramater to search member would do transaction. The value are "KG_ID" for search using ValueID, "MEMBERNO" for search using MemberNo, "EMAIL" for search using Email, and "CARDNUMBER" for search using Cardnumber
+<br/><strong>Id</strong> <code>string(50)</code> : Required, the value to be searched
+<br/><strong>IdOutlet</strong> <code>string(10)</code> : Required, The ID of outlet where a member do transaction. key to search transaction
+<br/><strong>ReferenceNo</strong> <code>string(30)</code> : Required and Unique, The reference no of member transaction. It will be the key to search transaction
+<br/><strong>CreatedDate</strong> <code>datetime</code> : Required,The date and time of member transaction, format <code>yyyy-mm-dd hh:ii:ss</code>
+<br/><strong>Amount</strong> <code>numeric</code> : Required, Total amount of member transaction, if <code>J_Point</code> is "0", the point earned/redeem will be calculated using this <code>Amount</code>
+<br/><strong>J_Point</strong> <code>numeric</code> : Required, Total point earned/redeem will using this value if it's not filled by "0", the <code>Amount</code> parameter will be ignored
+<br/><strong>ExchangeRate</strong> <code>numeric</code> : Required, Exchange conversion for calculating point earn/redeem, if it's not filled by "0", the Exchange Rate from <code>IdOutlet</code> will be ignored
+<br/><strong>AmountPoint</strong> <code>numeric</code> : Required, Keep it filled by "0"
+
+>Request body example
+``` javascript
+  {
+    "MutasiTypeName" : "EARNING",
+    "Searchby" : "KG_ID", 
+    "Id" : "VX1112",
+    "IdOutlet" : "MVAPP00001",
+    "ReferenceNo" : "12000001818271", 
+    "CreatedDate" : "2018-11-11 09:30:00",
+    "Amount" : 120000,
+    "J_Point" :0,
+    "ExchangeRate" : 0,
+    "AmountPoint" : 0
+  }
+```
+
+#### Response
+
+This is the response from API:
+<br/><strong>Message</strong> <code>string</code> : Message from end point
+<br/><strong>Data</strong> <code>object</code> : Object of data
+<br/>Possible status code:
+<br/><code>200</code> : Transaction success
+<br/><code>400</code> : Request body doesn't meet specification
+<br/><code>422</code> : Transaction failed
+
+>Success(200)
+``` javascript
+  {
+      "Message": "Earning Revision Success",
+      "Data": null
+  }
+```
+
 ## API Changelog
 
-### v 1.0.015
+### v 1.0.020
 
-- Add Transaction method while generating member
-- Add validation on Store Member, Update Member, Mapping Member
+- Add endpoint point revision
+
+### v 1.0.019
+
+- Change transaction status code while duplicate referenceNo (200/temp)
+
+### v 1.0.018
+
+- Add validation on PointMembership/Post and Point/Post (Transaction)
 - Add changelog
-- Optimize store member
-- BUG FIX - Search member validation
-
-### v 1.0.014
-
-- HOTFIX - Member Generator
+- Checking Duplicate Reference No on Transaction
+- Add IHub Sentry on Transaction
