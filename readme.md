@@ -718,6 +718,10 @@ This is the response from API:
 
 ## API Changelog
 
+### v 1.0.021
+
+- Add redeemed history
+
 ### v 1.0.020
 
 - Add endpoint point revision
