@@ -718,6 +718,10 @@ This is the response from API:
 
 ## API Changelog
 
+### v 1.0.022
+
+- BUG FIX
+
 ### v 1.0.021
 
 - Add redeemed history
