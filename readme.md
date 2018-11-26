@@ -8,8 +8,8 @@ Point API can be requested through HTTP(S) Request to Point Base URL endpoint. T
 
 ## API Base URL
 
-Development Environment : <code>https://staging-point.myvalue.com/</code><br/>
-Production Environment : <code>https://point.myvalue.com/</code>
+Development Environment : <code>https://staging-point.myvalue.id/</code><br/>
+Production Environment : <code>https://point.myvalue.id/</code>
 
 ### HTTP(S) Header
 
