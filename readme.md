@@ -324,7 +324,9 @@ This is the response from API:
 ``` javascript
   {
       "Message": "Earning Transaction Success",
-      "Data": null
+      "Data": {
+        Point: 400
+      }
   }
 ```
 
@@ -717,6 +719,10 @@ This is the response from API:
 ```
 
 ## API Changelog
+
+### v 1.0.023
+
+- Add Point on response transaction
 
 ### v 1.0.022
 
