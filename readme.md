@@ -720,6 +720,10 @@ This is the response from API:
 
 ## API Changelog
 
+### v 1.0.024
+
+- Change status code duplicate reference no (200 -> 409)
+
 ### v 1.0.023
 
 - Add Point on response transaction
